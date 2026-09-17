@@ -63,7 +63,6 @@ Start the frontend in a separate terminal:
 
 ```powershell
 cd frontend
-npm ci
 npm run dev
 ```
 
