@@ -24,7 +24,7 @@ public sealed class GetStunningDeviceDetailsQueryHandler(
                 last_inspection_date AS LastInspectionDate
             FROM stunning_devices
             WHERE id = @Id
-              AND is_deleted = FALSE;
+              AND is_deleted = 0;
             """;
 
         await using var connection =

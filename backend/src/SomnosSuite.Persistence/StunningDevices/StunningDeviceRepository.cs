@@ -10,17 +10,20 @@ internal sealed class StunningDeviceRepository(
     : IStunningDeviceRepository
 {
     public async Task<bool> SerialNumberExistsAsync(
-        string serialNumber,
-        CancellationToken cancellationToken)
+    string serialNumber,
+    CancellationToken cancellationToken)
     {
         const string sql = """
-            SELECT EXISTS (
+        SELECT CASE
+            WHEN EXISTS (
                 SELECT 1
                 FROM stunning_devices
                 WHERE serial_number = @SerialNumber
-                  AND is_deleted = FALSE
-            );
-            """;
+            )
+            THEN CAST(1 AS bit)
+            ELSE CAST(0 AS bit)
+        END;
+        """;
 
         await using var connection =
             await connectionFactory.OpenConnectionAsync(cancellationToken);

@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Npgsql;
 using SomnosSuite.Application;
 using SomnosSuite.Application.StunningDevices;
 using SomnosSuite.Persistence.Connections;
@@ -19,12 +18,8 @@ public static class DependencyInjection
             ?? throw new InvalidOperationException(
                 "Connection string 'Database' is not configured.");
 
-        services.AddSingleton(
-            NpgsqlDataSource.Create(connectionString));
-
-        services.AddSingleton<
-            ISqlConnectionFactory,
-            PostgresConnectionFactory>();
+        services.AddSingleton<ISqlConnectionFactory>(
+            new SqlServerConnectionFactory(connectionString));
 
         services.AddScoped<
             IStunningDeviceRepository,

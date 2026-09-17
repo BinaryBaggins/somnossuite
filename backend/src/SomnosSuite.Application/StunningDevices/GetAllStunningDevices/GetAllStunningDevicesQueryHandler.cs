@@ -21,7 +21,7 @@ public sealed class GetAllStunningDevicesQueryHandler(
                 serial_number AS SerialNumber,
                 animal_category AS AnimalCategory
             FROM stunning_devices
-            WHERE is_deleted = FALSE
+            WHERE is_deleted = 0
             ORDER BY model, serial_number;
             """;
 
