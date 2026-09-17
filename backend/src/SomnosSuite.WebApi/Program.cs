@@ -11,7 +11,7 @@ builder.Services.AddControllers();
 builder.Services
     .AddApplication() // Application Layer (CQRS, MediatR, etc.
     .AddInfrastructure() // Infrastructure Layer (Repositories, EF Core, etc.)
-    .AddPersistence() // Persistence Layer (DbContext, Migrations, etc.)
+    .AddPersistence(builder.Configuration) // Persistence Layer (DbContext, Migrations, etc.)
     .AddPresentation(); // Presentation Layer (Controllers, DTOs, etc.)
 
 var app = builder.Build();
