@@ -1,5 +1,6 @@
 using FluentAssertions;
 using SomnosSuite.Domain.Animals;
+using SomnosSuite.Domain.SharedKernel;
 using SomnosSuite.Domain.StunningDevices;
 using Xunit;
 
@@ -30,6 +31,14 @@ public sealed class StunningDeviceTests
 
         Assert.True(result.IsSuccess);
         Assert.Equal(id, result.Value.Id);
+    }
+
+    [Fact]
+    public void Create_WithEmptyId_ShouldFail()
+    {
+        var result = Create(id: Guid.Empty);
+
+        result.Error.Should().Be(StunningDeviceErrors.InvalidIdError);
     }
 
     [Fact]
@@ -87,19 +96,27 @@ public sealed class StunningDeviceTests
         device.ModifiedByUserId.Should().Be(ModifierId);
     }
 
-    private static SomnosSuite.Domain.SharedKernel.Result<StunningDevice> Create(
-        Guid id = new Guid(),
-        StunningDeviceType deviceType = StunningDeviceType.CaptiveBolt,
-        string? manufacturer = "Acme",
-        string? serialNumber = "SN-1",
-        string? model = "M1",
-        AnimalCategory animalCategory = AnimalCategory.Grossvieh,
-        DateOnly? lastInspectionDate = null)
+    private static Result<StunningDevice> Create(
+    Guid? id = null,
+    StunningDeviceType deviceType = StunningDeviceType.CaptiveBolt,
+    string? manufacturer = "Acme",
+    string? serialNumber = "SN-1",
+    string? model = "M1",
+    AnimalCategory animalCategory = AnimalCategory.Grossvieh,
+    DateOnly? lastInspectionDate = null)
     {
-        return StunningDevice.Create(id, deviceType, manufacturer, serialNumber, model, animalCategory, lastInspectionDate, Today);
+        return StunningDevice.Create(
+            id ?? DeviceId,
+            deviceType,
+            manufacturer,
+            serialNumber,
+            model,
+            animalCategory,
+            lastInspectionDate,
+            Today);
     }
 
-    private static SomnosSuite.Domain.SharedKernel.Result<StunningDevice> Rehydrate(
+    private static Result<StunningDevice> Rehydrate(
         DateOnly? lastInspectionDate = null,
         Guid? modifiedByUserId = null,
         DateTimeOffset? modifiedAt = null,
