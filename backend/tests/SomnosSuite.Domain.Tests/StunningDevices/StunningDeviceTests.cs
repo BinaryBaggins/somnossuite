@@ -22,6 +22,17 @@ public sealed class StunningDeviceTests
     }
 
     [Fact]
+    public void Create_WithValidInput_ShouldUseProvidedId()
+    {
+        var id = Guid.NewGuid();
+
+        var result = Create(id: id);
+
+        Assert.True(result.IsSuccess);
+        Assert.Equal(id, result.Value.Id);
+    }
+
+    [Fact]
     public void Create_Should_Trim_Strings()
     {
         var result = Create(manufacturer: "  Acme  ", serialNumber: "  SN-1  ", model: "  M1  ");
@@ -77,6 +88,7 @@ public sealed class StunningDeviceTests
     }
 
     private static SomnosSuite.Domain.SharedKernel.Result<StunningDevice> Create(
+        Guid id = new Guid(),
         StunningDeviceType deviceType = StunningDeviceType.CaptiveBolt,
         string? manufacturer = "Acme",
         string? serialNumber = "SN-1",
@@ -84,7 +96,7 @@ public sealed class StunningDeviceTests
         AnimalCategory animalCategory = AnimalCategory.Grossvieh,
         DateOnly? lastInspectionDate = null)
     {
-        return StunningDevice.Create(deviceType, manufacturer, serialNumber, model, animalCategory, lastInspectionDate, Today);
+        return StunningDevice.Create(id, deviceType, manufacturer, serialNumber, model, animalCategory, lastInspectionDate, Today);
     }
 
     private static SomnosSuite.Domain.SharedKernel.Result<StunningDevice> Rehydrate(
