@@ -7,7 +7,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
-builder.Services.AddControllers();
 builder.Services
     .AddApplication() // Application Layer (CQRS, MediatR, etc.
     .AddInfrastructure() // Infrastructure Layer (Repositories, EF Core, etc.)

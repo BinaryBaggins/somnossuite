@@ -82,7 +82,9 @@ internal sealed class StunningDeviceRepository(
                 stunningDevice.SerialNumber,
                 stunningDevice.Model,
                 AnimalCategory = (int)stunningDevice.AnimalCategory,
-                stunningDevice.LastInspectionDate,
+                LastInspectionDate =
+                    stunningDevice.LastInspectionDate?
+                    .ToDateTime(TimeOnly.MinValue),
                 stunningDevice.ModifiedByUserId,
                 stunningDevice.ModifiedAt,
                 stunningDevice.IsDeleted
