@@ -1,11 +1,9 @@
-using System.Data;
-
+using System.Data.Common;
 namespace SomnosSuite.Application
 {
     public interface ISqlConnectionFactory
     {
-        IDbConnection CreateConnection();
-        IDbConnection GetOpenConnection();
-        string ConnectionString();
+        Task<DbConnection> OpenConnectionAsync(
+        CancellationToken cancellationToken = default);
     }
 }

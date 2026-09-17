@@ -1,6 +1,5 @@
 ﻿using SomnosSuite.Domain.Animals;
 using SomnosSuite.Domain.SharedKernel;
-using SomnosSuite.Domain.StunningChecks;
 
 namespace SomnosSuite.Domain.StunningDevices
 {
@@ -19,12 +18,14 @@ namespace SomnosSuite.Domain.StunningDevices
         private StunningDevice() { } //EF Core
 
         private StunningDevice(
+            Guid id,
             StunningDeviceType deviceType,
             string manufacturer,
             string serialNumber,
             string model,
             AnimalCategory animalCategory,
             DateOnly? lastInspectionDate)
+            : base(id)
         {
             DeviceType = deviceType;
             Manufacturer = manufacturer;
@@ -61,6 +62,7 @@ namespace SomnosSuite.Domain.StunningDevices
 
 
         public static Result<StunningDevice> Create(
+            Guid id,
             StunningDeviceType deviceType,
             string? manufacturer,
             string? serialNumber,
@@ -69,6 +71,10 @@ namespace SomnosSuite.Domain.StunningDevices
             DateOnly? lastInspectionDate,
             DateOnly today)
         {
+            if (id == Guid.Empty)
+                return Result<StunningDevice>.Failure(
+                    StunningDeviceErrors.InvalidIdError);
+
             var validation = Validate(
                 deviceType,
                 manufacturer,
@@ -85,6 +91,7 @@ namespace SomnosSuite.Domain.StunningDevices
                 return Result<StunningDevice>.Failure(validation.Error);
 
             return new StunningDevice(
+                id,
                 deviceType,
                 trimmedManufacturer,
                 trimmedSerialNumber,

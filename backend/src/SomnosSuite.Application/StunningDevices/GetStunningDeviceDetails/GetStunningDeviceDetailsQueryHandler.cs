@@ -1,26 +1,43 @@
 using Dapper;
 using SomnosSuite.Application.Abstractions;
 
-namespace SomnosSuite.Application.StunningDevices.GetStunningDeviceDetails
-{
-    public class GetStunningDeviceDetailsQueryHandler(ISqlConnectionFactory sqlConnectionFactory) : IQueryHandler<GetStunningDeviceDetailsQuery, GetStunningDeviceDetailsDto>
-    {
-        public async Task<GetStunningDeviceDetailsDto> Handle(GetStunningDeviceDetailsQuery request, CancellationToken cancellationToken)
-        {
-            const string query = @"
-            SELECT
-                Id,
-                DeviceType,
-                Model,
-                SerialNumber,
-                Manufacturer,
-                AnimalCategory,
-                LastInspectionDate
-            FROM StunningDevices
-            WHERE IsDeleted = 0 AND Id = @Id";
+namespace SomnosSuite.Application.StunningDevices.GetStunningDeviceDetails;
 
-            using var connection = sqlConnectionFactory.GetOpenConnection();
-            return await connection.QuerySingleAsync<GetStunningDeviceDetailsDto>(query, new { Id = request.Id });
-        }
+public sealed class GetStunningDeviceDetailsQueryHandler(
+    ISqlConnectionFactory connectionFactory)
+    : IQueryHandler<
+        GetStunningDeviceDetailsQuery,
+        GetStunningDeviceDetailsDto>
+{
+    public async Task<GetStunningDeviceDetailsDto> Handle(
+        GetStunningDeviceDetailsQuery request,
+        CancellationToken cancellationToken)
+    {
+        const string sql = """
+            SELECT
+                id AS Id,
+                device_type AS DeviceType,
+                manufacturer AS Manufacturer,
+                serial_number AS SerialNumber,
+                model AS Model,
+                animal_category AS AnimalCategory,
+                last_inspection_date AS LastInspectionDate
+            FROM stunning_devices
+            WHERE id = @Id
+              AND is_deleted = 0;
+            """;
+
+        await using var connection =
+            await connectionFactory.OpenConnectionAsync(
+                cancellationToken);
+
+        var command = new CommandDefinition(
+            sql,
+            new { request.Id },
+            cancellationToken: cancellationToken);
+
+        return await connection
+            .QuerySingleAsync<GetStunningDeviceDetailsDto>(
+                command);
     }
 }
