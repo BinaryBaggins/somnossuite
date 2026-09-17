@@ -10,6 +10,6 @@ namespace SomnosSuite.Application.StunningDevices.GetStunningDeviceDetails
         DateOnly? LastInspectionDate
     )
     {
-        
+
     }
 }

@@ -1,6 +1,5 @@
 ﻿using SomnosSuite.Domain.Animals;
 using SomnosSuite.Domain.SharedKernel;
-using SomnosSuite.Domain.StunningChecks;
 
 namespace SomnosSuite.Domain.StunningDevices
 {
