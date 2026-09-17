@@ -36,7 +36,7 @@ public sealed class CreateStunningDeviceCommandHandler(
                 CreateStunningDeviceErrors.SerialNumberAlreadyExists);
         }
 
-        await repository.AddAsync(device, cancellationToken);
+        await repository.InsertAsync(device, cancellationToken);
 
         return device.Id;
     }

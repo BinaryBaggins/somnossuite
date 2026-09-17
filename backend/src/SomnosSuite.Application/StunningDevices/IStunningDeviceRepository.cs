@@ -8,7 +8,7 @@ namespace SomnosSuite.Application.StunningDevices
         string serialNumber,
         CancellationToken cancellationToken);
 
-        Task AddAsync(
+        Task InsertAsync(
             StunningDevice stunningDevice,
             CancellationToken cancellationToken);
     }
