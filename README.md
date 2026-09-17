@@ -1,107 +1,84 @@
 # SomnosSuite
 
-SomnosSuite is a web/API suite for livestock stunning-control workflows. It models animals, stunning devices, stunning checks, outcomes, user audit metadata, and reporting concepts for a modern, maintainable control and documentation system.
+SomnosSuite is a web application for livestock stunning-control and documentation workflows.
 
-The current implementation focuses on the core domain model and a lightweight application shell. Domain behavior is documented in [docs/DOMAIN_PLAN.md](docs/DOMAIN_PLAN.md), with detailed rules in [docs/DOMAIN_RULES.md](docs/DOMAIN_RULES.md) and upcoming work in [docs/DOMAIN_ROADMAP.md](docs/DOMAIN_ROADMAP.md).
+The repository contains a .NET backend, a SvelteKit frontend, SQL Server persistence, database migrations, and automated tests.
+
+## Tech Stack
+
+- .NET 10 / ASP.NET Core
+- MediatR
+- Dapper
+- SQL Server 2022
+- DbUp
+- SvelteKit
+- TypeScript
+- Docker
+- xUnit / Testcontainers
+- GitHub Actions / CodeQL
 
 ## Repository Structure
 
 ```text
 .
 ├── backend/
-│   ├── backend.sln
+│   ├── database/
 │   ├── src/
-│   │   ├── SomnosSuite.Domain/
-│   │   ├── SomnosSuite.Application/
-│   │   ├── SomnosSuite.Infrastructure/
-│   │   ├── SomnosSuite.Persistence/
-│   │   ├── SomnosSuite.Presentation/
-│   │   └── SomnosSuite.WebApi/
-│   └── tests/
-│       └── SomnosSuite.Domain.Tests/
+│   ├── tests/
+│   ├── tools/
+│   └── backend.sln
 ├── docs/
-│   ├── DOMAIN_PLAN.md
-│   ├── DOMAIN_RULES.md
-│   └── DOMAIN_ROADMAP.md
-└── frontend/
-    ├── src/
-    ├── static/
-    ├── package.json
-    └── .env.example
+├── frontend/
+├── compose.yml
+└── global.json
 ```
 
-- `backend/` contains the layered .NET solution, ASP.NET Core Web API entry point, and domain tests.
-- `frontend/` contains the SvelteKit/Vite frontend.
-- `docs/` contains product and domain documentation shared across the repository.
+## Development
 
-## Prerequisites
+For the complete local development setup, see:
 
-- .NET SDK `10.0.300` as pinned in `global.json`
-- Node.js `22.13.0` or newer as pinned in `.nvmrc`
-- npm `10` or newer
+[Development Setup](docs/DEVELOPMENT_SETUP.md)
 
-## Backend
-
-From the repository root:
+Once the environment is configured, start SQL Server:
 
 ```powershell
-cd backend
-dotnet restore backend.sln
-dotnet build backend.sln
-dotnet test backend.sln
+docker compose up -d
 ```
 
-Run only the current domain test project:
+Run the backend tests:
 
 ```powershell
-cd backend
-dotnet test tests\SomnosSuite.Domain.Tests\SomnosSuite.Domain.Tests.csproj
+dotnet test backend/backend.sln
 ```
 
-Run the Web API locally:
+Start the Web API:
 
 ```powershell
-cd backend
-dotnet run --project src\SomnosSuite.WebApi\SomnosSuite.WebApi.csproj --launch-profile https
+dotnet run `
+  --project backend/src/SomnosSuite.WebApi/SomnosSuite.WebApi.csproj `
+  --launch-profile https
 ```
 
-The current HTTPS launch profile serves the API at `https://localhost:7086` and also exposes `http://localhost:5063`.
-
-## Frontend
-
-Requires Node.js and npm. From the repository root:
+Start the frontend in a separate terminal:
 
 ```powershell
 cd frontend
-npm install
-```
-
-Use `npm ci` instead of `npm install` when you want a clean install from `package-lock.json`.
-
-Common frontend commands:
-
-```powershell
-npm run check
-npm run lint
-npm run build
+npm ci
 npm run dev
 ```
 
-## Environment Setup
+The local API is available at:
 
-Frontend environment values are documented in `frontend\.env.example`.
+- `https://localhost:7086`
+- `http://localhost:5063`
 
-Create your local frontend env file:
+## Documentation
 
-```powershell
-cd frontend
-Copy-Item .env.example .env
-```
+- [Development Setup](docs/DEVELOPMENT_SETUP.md)
+- [Domain Plan](docs/DOMAIN_PLAN.md)
+- [Domain Rules](docs/DOMAIN_RULES.md)
+- [Domain Roadmap](docs/DOMAIN_ROADMAP.md)
 
-The public frontend API base URL is configured with:
+## License
 
-```env
-PUBLIC_API_BASE_URL="https://localhost:7086"
-```
-
-Adjust this value if you run the backend on a different local URL. Do not commit local `.env` files or secrets; only example files should be tracked.
+See [LICENSE](LICENSE).
