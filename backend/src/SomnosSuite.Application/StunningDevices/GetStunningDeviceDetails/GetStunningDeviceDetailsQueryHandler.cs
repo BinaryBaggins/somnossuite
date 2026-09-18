@@ -1,5 +1,6 @@
 using Dapper;
 using SomnosSuite.Application.Abstractions;
+using SomnosSuite.Domain.SharedKernel;
 
 namespace SomnosSuite.Application.StunningDevices.GetStunningDeviceDetails;
 
@@ -7,9 +8,9 @@ public sealed class GetStunningDeviceDetailsQueryHandler(
     ISqlConnectionFactory connectionFactory)
     : IQueryHandler<
         GetStunningDeviceDetailsQuery,
-        GetStunningDeviceDetailsDto>
+        Result<GetStunningDeviceDetailsDto>>
 {
-    public async Task<GetStunningDeviceDetailsDto> Handle(
+    public async Task<Result<GetStunningDeviceDetailsDto>> Handle(
         GetStunningDeviceDetailsQuery request,
         CancellationToken cancellationToken)
     {
@@ -36,8 +37,16 @@ public sealed class GetStunningDeviceDetailsQueryHandler(
             new { request.Id },
             cancellationToken: cancellationToken);
 
-        return await connection
-            .QuerySingleAsync<GetStunningDeviceDetailsDto>(
+        var device = await connection
+            .QuerySingleOrDefaultAsync<GetStunningDeviceDetailsDto>(
                 command);
+
+        if (device is null)
+        {
+            return Result<GetStunningDeviceDetailsDto>.Failure(
+                GetStunningDeviceDetailsErrors.NotFound);
+        }
+
+        return device;
     }
 }

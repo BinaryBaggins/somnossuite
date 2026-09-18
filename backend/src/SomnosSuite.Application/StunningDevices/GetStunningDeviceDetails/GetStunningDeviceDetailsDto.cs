@@ -1,15 +1,14 @@
+using SomnosSuite.Domain.Animals;
+using SomnosSuite.Domain.StunningDevices;
+
 namespace SomnosSuite.Application.StunningDevices.GetStunningDeviceDetails
 {
-    public record GetStunningDeviceDetailsDto(
+    public sealed record GetStunningDeviceDetailsDto(
         Guid Id,
-        string DeviceType,
+        StunningDeviceType DeviceType,
         string Model,
         string SerialNumber,
         string Manufacturer,
-        string AnimalCategory,
-        DateOnly? LastInspectionDate
-    )
-    {
-
-    }
+        AnimalCategory AnimalCategory,
+        DateOnly? LastInspectionDate);
 }
