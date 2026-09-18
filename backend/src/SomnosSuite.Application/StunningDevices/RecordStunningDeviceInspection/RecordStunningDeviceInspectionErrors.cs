@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using SomnosSuite.Domain.SharedKernel;
 
-namespace SomnosSuite.Persistence.StunningDevices
+namespace SomnosSuite.Application.StunningDevices.RecordStunningDeviceInspection
 {
-    public static class StunningDeviceRepositoryErrors
+    public static class RecordStunningDeviceInspectionErrors
     {
         public static readonly Error NotFound = new(
             "StunningDevice.NotFound",

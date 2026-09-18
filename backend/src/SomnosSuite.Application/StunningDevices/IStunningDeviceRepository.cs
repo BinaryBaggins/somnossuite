@@ -12,7 +12,7 @@ namespace SomnosSuite.Application.StunningDevices
             StunningDevice stunningDevice,
             CancellationToken cancellationToken);
 
-        Task<Result<StunningDevice>> GetByIdAsync(
+        Task<Result<StunningDevice?>> LoadByIdAsync(
             Guid id,
             DateOnly today,
             CancellationToken cancellationToken);

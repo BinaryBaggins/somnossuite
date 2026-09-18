@@ -96,7 +96,7 @@ internal sealed class StunningDeviceRepository(
         await connection.ExecuteAsync(command);
     }
 
-    public async Task<Result<StunningDevice>> GetByIdAsync(Guid id, DateOnly today, CancellationToken cancellationToken)
+    public async Task<Result<StunningDevice?>> LoadByIdAsync(Guid id, DateOnly today, CancellationToken cancellationToken)
     {
         const string sql = """
             SELECT
@@ -126,10 +126,10 @@ internal sealed class StunningDeviceRepository(
 
         if (row is null)
         {
-            return Result.Failure<StunningDevice>(StunningDeviceRepositoryErrors.NotFound);
+            return Result<StunningDevice?>.Success(null);
         }
 
-        return StunningDevice.Rehydrate(
+        var rehydrateResult = StunningDevice.Rehydrate(
             row.Id,
             (StunningDeviceType)row.DeviceType,
             row.Manufacturer,
@@ -144,6 +144,13 @@ internal sealed class StunningDeviceRepository(
             row.ModifiedAt,
             today,
             row.IsDeleted);
+
+        if (rehydrateResult.IsFailure)
+        {
+            return Result<StunningDevice?>.Failure(rehydrateResult.Error);
+        }
+
+        return Result<StunningDevice?>.Success(rehydrateResult.Value);
     }
 
     public async Task UpdateAsync(
