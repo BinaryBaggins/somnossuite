@@ -1,6 +1,8 @@
 using Dapper;
 using SomnosSuite.Application.Abstractions;
+using SomnosSuite.Domain.Animals;
 using SomnosSuite.Domain.SharedKernel;
+using SomnosSuite.Domain.StunningDevices;
 
 namespace SomnosSuite.Application.StunningDevices.GetStunningDeviceDetails;
 
@@ -37,16 +39,35 @@ public sealed class GetStunningDeviceDetailsQueryHandler(
             new { request.Id },
             cancellationToken: cancellationToken);
 
-        var device = await connection
-            .QuerySingleOrDefaultAsync<GetStunningDeviceDetailsDto>(
+        var row = await connection
+            .QuerySingleOrDefaultAsync<StunningDeviceDetailsRow>(
                 command);
 
-        if (device is null)
+        if (row is null)
         {
             return Result<GetStunningDeviceDetailsDto>.Failure(
                 GetStunningDeviceDetailsErrors.NotFound);
         }
 
-        return device;
+        return new GetStunningDeviceDetailsDto(
+            row.Id,
+            (StunningDeviceType)row.DeviceType,
+            row.Model,
+            row.SerialNumber,
+            row.Manufacturer,
+            (AnimalCategory)row.AnimalCategory,
+            row.LastInspectionDate.HasValue
+                ? DateOnly.FromDateTime(
+                    row.LastInspectionDate.Value)
+                : null);
     }
+
+    private sealed record StunningDeviceDetailsRow(
+       Guid Id,
+       int DeviceType,
+       string Manufacturer,
+       string SerialNumber,
+       string Model,
+       int AnimalCategory,
+       DateTime? LastInspectionDate);
 }

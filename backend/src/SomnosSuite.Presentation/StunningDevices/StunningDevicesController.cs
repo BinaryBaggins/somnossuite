@@ -1,6 +1,8 @@
 using MediatR;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using SomnosSuite.Application.StunningDevices.CreateStunningDevice;
+using SomnosSuite.Application.StunningDevices.GetStunningDeviceDetails;
 using SomnosSuite.Application.StunningDevices;
 
 namespace SomnosSuite.Presentation.StunningDevices;
