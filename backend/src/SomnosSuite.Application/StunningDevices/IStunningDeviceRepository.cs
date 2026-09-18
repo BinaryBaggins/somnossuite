@@ -1,5 +1,5 @@
 using SomnosSuite.Domain.StunningDevices;
-
+using SomnosSuite.Domain.SharedKernel;
 namespace SomnosSuite.Application.StunningDevices
 {
     public interface IStunningDeviceRepository
@@ -11,5 +11,15 @@ namespace SomnosSuite.Application.StunningDevices
         Task InsertAsync(
             StunningDevice stunningDevice,
             CancellationToken cancellationToken);
+
+        Task<Result<StunningDevice>> GetByIdAsync(
+            Guid id,
+            DateOnly today,
+            CancellationToken cancellationToken);
+
+        Task UpdateAsync(
+            StunningDevice stunningDevice,
+            CancellationToken cancellationToken);
+
     }
 }
