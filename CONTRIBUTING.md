@@ -35,7 +35,7 @@ Copy `frontend\.env.example` to `frontend\.env` for local development. Never com
 
 ## Documentation
 
-Domain documentation lives in `docs/`. Keep `DOMAIN_PLAN.md`, `DOMAIN_RULES.md`, and `DOMAIN_ROADMAP.md` aligned with code and tests when domain behavior changes.
+Domain documentation lives in `docs/`. Keep `DOMAIN_MODEL.md`, `DOMAIN_RULES.md`, and `DOMAIN_ROADMAP.md` aligned with code and tests when domain behavior changes.
 
 ## Pull Requests
 
