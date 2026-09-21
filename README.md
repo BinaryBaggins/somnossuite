@@ -74,9 +74,20 @@ The local API is available at:
 ## Documentation
 
 - [Development Setup](docs/DEVELOPMENT_SETUP.md)
-- [Domain Plan](docs/DOMAIN_PLAN.md)
+- [Project Overview](docs/PROJECT_OVERVIEW.md)
+- [Requirements](docs/REQUIREMENTS.md)
+- [Architecture](docs/ARCHITECTURE.md)
+- [Capture Workflow](docs/CAPTURE_WORKFLOW.md)
+- [Domain Model](docs/DOMAIN_MODEL.md)
+- [Integrations](docs/INTEGRATIONS.md)
+- [Offline Capture and Synchronization](docs/OFFLINE_SYNC.md)
+- [Security and Access](docs/SECURITY_AND_ACCESS.md)
+- [Reporting](docs/REPORTING.md)
+- [Operations and Recovery](docs/OPERATIONS_AND_RECOVERY.md)
+- [Migration and Rollout](docs/MIGRATION_AND_ROLLOUT.md)
 - [Domain Rules](docs/DOMAIN_RULES.md)
 - [Domain Roadmap](docs/DOMAIN_ROADMAP.md)
+- [Architecture Decision Records](docs/adr/README.md)
 
 ## License
 
