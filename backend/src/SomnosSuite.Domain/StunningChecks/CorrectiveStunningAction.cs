@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using SomnosSuite.Domain.SharedKernel;
 
 namespace SomnosSuite.Domain.StunningChecks
@@ -16,11 +12,22 @@ namespace SomnosSuite.Domain.StunningChecks
             DeviceId = deviceId;
             Timing = timing;
         }
-        public static CorrectiveStunningAction Create(Guid deviceId, RestunningTiming timing)
+        public static Result<CorrectiveStunningAction> Create(Guid deviceId, RestunningTiming timing)
         {
-            // Add any necessary validation or business rules here before creating the instance
-            return new CorrectiveStunningAction(deviceId, timing);
+            if (deviceId == Guid.Empty)
+                return Result<CorrectiveStunningAction>.Failure(
+                    CorrectiveStunningActionErrors.DeviceIdIsRequiredError);
+
+            if (!Enum.IsDefined(timing))
+                return Result<CorrectiveStunningAction>.Failure(
+                    CorrectiveStunningActionErrors.TimingIsInvalidError);
+            return Result<CorrectiveStunningAction>.Success(new CorrectiveStunningAction(deviceId, timing));
         }
 
+    }
+    internal class CorrectiveStunningActionErrors
+    {
+        public static readonly Error DeviceIdIsRequiredError = new("CorrectiveStunningActionErrors.DeviceIdIsRequired", "DeviceId is required.");
+        public static readonly Error TimingIsInvalidError = new("CorrectiveStunningActionErrors.TimingIsInvalid", "Timing is invalid.");
     }
 }
