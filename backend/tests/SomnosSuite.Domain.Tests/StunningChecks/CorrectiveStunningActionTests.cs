@@ -4,7 +4,7 @@ using Xunit;
 
 namespace SomnosSuite.Domain.Tests.StunningChecks
 {
-    public class CorrectiveStunningActionTest
+    public class CorrectiveStunningActionTests
     {
         private static readonly Guid ValidDeviceId = Guid.NewGuid();
         private static readonly CorrectiveStunningTiming ValidTiming = CorrectiveStunningTiming.BeforeBleeding;

@@ -42,7 +42,7 @@ namespace SomnosSuite.Domain.StunningChecks
                 return Result<StunningResult>.Failure(
                     StunningResultErrors.CorrectiveActionIsInvalidError);
 
-            // Ensure that a successful outcome does not have any failure indicators or corrective actions.
+            // Ensure that a successful outcome does not have any failure indicators and corrective actions.
             if (outcome == StunningOutcome.Successful)
             {
                 if (indicators.Length > 0)
@@ -54,7 +54,7 @@ namespace SomnosSuite.Domain.StunningChecks
                         StunningResultErrors.CorrectiveActionIsNotAllowedError);
             }
 
-            // Ensure that a failed outcome has at least one failure indicator or corrective action.
+            // Ensure that a failed outcome has at least one failure indicator and corrective action.
             if (outcome == StunningOutcome.Failed)
             {
                 if (indicators.Length == 0)
@@ -66,7 +66,8 @@ namespace SomnosSuite.Domain.StunningChecks
                         StunningResultErrors.CorrectiveActionIsRequiredError);
             }
 
-            return new StunningResult(outcome, indicators, actions);
+            // Construct with read-only collections for indicators and actions so that they cannot be modified externally.
+            return new StunningResult(outcome, Array.AsReadOnly(indicators), Array.AsReadOnly(actions));
         }
     }
 

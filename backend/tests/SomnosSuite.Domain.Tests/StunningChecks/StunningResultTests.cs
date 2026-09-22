@@ -3,7 +3,7 @@ using SomnosSuite.Domain.StunningChecks;
 using Xunit;
 namespace SomnosSuite.Domain.Tests.StunningChecks
 {
-    public class StunningResultTest
+    public class StunningResultTests
     {
         private static readonly CorrectiveStunningAction[] CorrectiveActions =
         [
