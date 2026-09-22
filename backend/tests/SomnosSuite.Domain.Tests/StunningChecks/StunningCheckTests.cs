@@ -40,7 +40,7 @@ public sealed class StunningCheckTests
         failed.RecordOutcome(
             StunningOutcome.Failed,
             null,
-            RestunningTiming.BeforeBleeding,
+            CorrectiveStunningTiming.BeforeBleeding,
             UserId,
             RestunningDeviceId,
             RecordedAt).Error.Should().Be(StunningCheckErrors.FailureIndicatorIsRequiredError);
@@ -48,7 +48,7 @@ public sealed class StunningCheckTests
         failed.RecordOutcome(
             StunningOutcome.Failed,
             StunningFailureIndicator.Reflex,
-            RestunningTiming.BeforeBleeding,
+            CorrectiveStunningTiming.BeforeBleeding,
             UserId,
             RestunningDeviceId,
             RecordedAt).IsSuccess.Should().BeTrue();
@@ -167,7 +167,7 @@ public sealed class StunningCheckTests
             modifiedAt,
             StunningOutcome.Failed,
             StunningFailureIndicator.Reflex,
-            RestunningTiming.BeforeBleeding,
+            CorrectiveStunningTiming.BeforeBleeding,
             RestunningDeviceId,
             StunningCheckStatus.Confirmed,
             false);

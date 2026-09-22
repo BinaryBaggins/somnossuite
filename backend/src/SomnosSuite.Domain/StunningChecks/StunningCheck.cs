@@ -18,7 +18,7 @@ namespace SomnosSuite.Domain.StunningChecks
 
         public StunningOutcome? Outcome { get; private set; }
         public StunningFailureIndicator? FailureIndicator { get; private set; }
-        public RestunningTiming? RestunningTiming { get; private set; }
+        public CorrectiveStunningTiming? RestunningTiming { get; private set; }
         public Guid? RestunningDeviceId { get; private set; }
 
         public StunningCheckStatus Status { get; private set; }
@@ -47,7 +47,7 @@ namespace SomnosSuite.Domain.StunningChecks
             DateTimeOffset? modifiedAt,
             StunningOutcome? outcome,
             StunningFailureIndicator? failureIndicator,
-            RestunningTiming? restunningTiming,
+            CorrectiveStunningTiming? restunningTiming,
             Guid? restunningDeviceId,
             StunningCheckStatus status,
             bool isDeleted)
@@ -89,7 +89,7 @@ namespace SomnosSuite.Domain.StunningChecks
             DateTimeOffset? modifiedAt,
             StunningOutcome? outcome,
             StunningFailureIndicator? failureIndicator,
-            RestunningTiming? restunningTiming,
+            CorrectiveStunningTiming? restunningTiming,
             Guid? restunningDeviceId,
             StunningCheckStatus status,
             bool isDeleted)
@@ -155,7 +155,7 @@ namespace SomnosSuite.Domain.StunningChecks
         public Result RecordOutcome(
             StunningOutcome outcome,
             StunningFailureIndicator? failureIndicator,
-            RestunningTiming? restunningTiming,
+            CorrectiveStunningTiming? restunningTiming,
             Guid recordedByUserId,
             Guid? restunningDeviceId,
             DateTimeOffset recordedAt)
@@ -196,7 +196,7 @@ namespace SomnosSuite.Domain.StunningChecks
         public Result CorrectOutcome(
             StunningOutcome outcome,
             StunningFailureIndicator? failureIndicator,
-            RestunningTiming? restunningTiming,
+            CorrectiveStunningTiming? restunningTiming,
             Guid? restunningDeviceId,
             Guid modifiedByUserId,
             DateTimeOffset modifiedAt)
@@ -234,7 +234,7 @@ namespace SomnosSuite.Domain.StunningChecks
             DateTimeOffset? recordedAt,
             StunningOutcome? outcome,
             StunningFailureIndicator? failureIndicator,
-            RestunningTiming? restunningTiming,
+            CorrectiveStunningTiming? restunningTiming,
             Guid? restunningDeviceId)
         {
             if (!Enum.IsDefined(status))
@@ -264,7 +264,7 @@ namespace SomnosSuite.Domain.StunningChecks
             DateTimeOffset? recordedAt,
             StunningOutcome? outcome,
             StunningFailureIndicator? failureIndicator,
-            RestunningTiming? restunningTiming,
+            CorrectiveStunningTiming? restunningTiming,
             Guid? restunningDeviceId)
         {
             if (recordedByUserId.HasValue)
@@ -299,7 +299,7 @@ namespace SomnosSuite.Domain.StunningChecks
         private static Result ValidateOutcomeRules(
             StunningOutcome outcome,
             StunningFailureIndicator? failureIndicator,
-            RestunningTiming? restunningTiming,
+            CorrectiveStunningTiming? restunningTiming,
             Guid? restunningDeviceId)
         {
             if (!Enum.IsDefined(outcome))
@@ -323,7 +323,7 @@ namespace SomnosSuite.Domain.StunningChecks
 
         private static Result ValidateSuccessfulOutcome(
             StunningFailureIndicator? failureIndicator,
-            RestunningTiming? restunningTiming,
+            CorrectiveStunningTiming? restunningTiming,
             Guid? restunningDeviceId)
         {
             if (failureIndicator.HasValue)
@@ -340,7 +340,7 @@ namespace SomnosSuite.Domain.StunningChecks
 
         private static Result ValidateFailedOutcome(
             StunningFailureIndicator? failureIndicator,
-            RestunningTiming? restunningTiming,
+            CorrectiveStunningTiming? restunningTiming,
             Guid? restunningDeviceId)
         {
             if (!failureIndicator.HasValue)
