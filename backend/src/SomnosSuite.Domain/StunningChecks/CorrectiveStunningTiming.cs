@@ -1,6 +1,6 @@
 namespace SomnosSuite.Domain.StunningChecks
 {
-    public enum RestunningTiming
+    public enum CorrectiveStunningTiming
     {
         BeforeBleeding,
         AfterBleeding
