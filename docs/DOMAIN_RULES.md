@@ -109,19 +109,19 @@ The current `AnimalKind` enum is exactly: `Schwein`, `Rind`, `Kuh`, `Muni`, `Och
 
 `StunningCheck` is an aggregate root for one stunning control. It owns one `StunningResult` value object after an outcome is recorded. A `StunningResult` contains one `StunningOutcome`, zero or more `StunningFailureIndicator` values, and zero or more `CorrectiveStunningAction` value objects. Each corrective action contains a non-empty device id and a `CorrectiveStunningTiming`.
 
-| Rule               | Behavior                                                                                                                                                                                                                                                               |
-| ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Creation           | Requires a non-null `Animal`, non-empty initial stunning device id, and created timestamp.                                                                                                                                                                             |
-| Initial state      | New checks start in `Created` status.                                                                                                                                                                                                                                  |
-| Recording          | `RecordOutcome(...)` receives an already-valid `StunningResult`, records it as the first outcome, and moves the check to `Confirmed`.                                                                                                                               |
-| Recording audit    | Recording requires non-empty recorded-by user id and `RecordedAt >= CreatedAt`.                                                                                                                                                                                        |
-| Re-recording       | Confirmed checks cannot be recorded again.                                                                                                                                                                                                                             |
-| Correction         | `CorrectOutcome(...)` receives an already-valid replacement `StunningResult` and is the only correction path. It requires the check to already be confirmed. Correction currently overwrites the previous result; it does not yet retain a separate before/after value history. See [DOMAIN_ROADMAP.md](DOMAIN_ROADMAP.md). |
-| Correction audit   | Corrections require modifier audit and `ModifiedAt >= CreatedAt`.                                                                                                                                                                                                      |
-| Successful result  | `StunningOutcome.Successful` allows no failure indicators and no corrective stunning actions.                                                                                                                                                                          |
-| Failed result      | `StunningOutcome.Failed` requires at least one failure indicator and at least one corrective stunning action. Multiple simultaneous failure indicators and multiple corrective stunning actions are supported. Duplicate failure indicators are rejected. Corrective actions may use the same device/timing combination. |
-| Rehydration        | Requires non-empty id, valid lifecycle state, valid outcome rules, consistent audit state, and minimum chronology.                                                                                                                                                     |
-| Soft delete        | Deleted checks reject recording and correction. Rehydrated deleted checks require modifier audit.                                                                                                                                                                      |
+| Rule              | Behavior                                                                                                                                                                                                                                                                                                                    |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Creation          | Requires a non-null `Animal`, non-empty initial stunning device id, and created timestamp.                                                                                                                                                                                                                                  |
+| Initial state     | New checks start in `Created` status.                                                                                                                                                                                                                                                                                       |
+| Recording         | `RecordOutcome(...)` receives an already-valid `StunningResult`, records it as the first outcome, and moves the check to `Confirmed`.                                                                                                                                                                                       |
+| Recording audit   | Recording requires non-empty recorded-by user id and `RecordedAt >= CreatedAt`.                                                                                                                                                                                                                                             |
+| Re-recording      | Confirmed checks cannot be recorded again.                                                                                                                                                                                                                                                                                  |
+| Correction        | `CorrectOutcome(...)` receives an already-valid replacement `StunningResult` and is the only correction path. It requires the check to already be confirmed. Correction currently overwrites the previous result; it does not yet retain a separate before/after value history. See [DOMAIN_ROADMAP.md](DOMAIN_ROADMAP.md). |
+| Correction audit  | Corrections require modifier audit and `ModifiedAt >= CreatedAt`.                                                                                                                                                                                                                                                           |
+| Successful result | `StunningOutcome.Successful` allows no failure indicators and no corrective stunning actions.                                                                                                                                                                                                                               |
+| Failed result     | `StunningOutcome.Failed` requires at least one failure indicator and at least one corrective stunning action. Multiple simultaneous failure indicators and multiple corrective stunning actions are supported. Duplicate failure indicators are rejected. Corrective actions may use the same device/timing combination.    |
+| Rehydration       | Requires non-empty id, valid lifecycle state, valid outcome rules, consistent audit state, and minimum chronology.                                                                                                                                                                                                          |
+| Soft delete       | Deleted checks reject recording and correction. Rehydrated deleted checks require modifier audit.                                                                                                                                                                                                                           |
 
 ## ReportPeriod
 
@@ -156,17 +156,17 @@ The current `AnimalKind` enum is exactly: `Schwein`, `Rind`, `Kuh`, `Muni`, `Och
 
 String mapping from external data sources belongs outside the domain, in import, API, or application mapping code. These values are preserved as neutral integration examples.
 
-| External value                 | Domain value                            |
-| ------------------------------ | --------------------------------------- |
-| `gut`                          | `StunningOutcome.Successful`            |
-| `(Augen-)Reflexe`              | `StunningFailureIndicator.Reflex`       |
-| `Reflex des Tieres`            | `StunningFailureIndicator.Reflex`       |
-| `Lautaeusserung`               | `StunningFailureIndicator.Vocalization` |
-| `Schnappatmung`                | `StunningFailureIndicator.Gasping`      |
+| External value                 | Domain value                              |
+| ------------------------------ | ----------------------------------------- |
+| `gut`                          | `StunningOutcome.Successful`              |
+| `(Augen-)Reflexe`              | `StunningFailureIndicator.Reflex`         |
+| `Reflex des Tieres`            | `StunningFailureIndicator.Reflex`         |
+| `Lautaeusserung`               | `StunningFailureIndicator.Vocalization`   |
+| `Schnappatmung`                | `StunningFailureIndicator.Gasping`        |
 | `Bolzenschuss vor Entblutung`  | `CorrectiveStunningTiming.BeforeBleeding` |
 | `Bolzenschuss nach Entblutung` | `CorrectiveStunningTiming.AfterBleeding`  |
-| `CO2`                          | `StunningDeviceType.CarbonDioxide`      |
-| `Bolzenschuss`                 | `StunningDeviceType.CaptiveBolt`        |
+| `CO2`                          | `StunningDeviceType.CarbonDioxide`        |
+| `Bolzenschuss`                 | `StunningDeviceType.CaptiveBolt`          |
 
 ## Tested State
 
