@@ -24,33 +24,13 @@ namespace SomnosSuite.Domain.StunningChecks
             "StunningCheck.StunningCheckIsDeleted",
             "Deleted stunning checks can not be changed.");
 
-        public static readonly Error StunningOutcomeIsInvalidError = new(
-            "StunningCheck.StunningOutcomeIsInvalid",
-            "Stunning outcome is invalid.");
-
         public static readonly Error FailureIndicatorIsNotAllowedError = new(
             "StunningCheck.FailureIndicatorIsNotAllowed",
             "Failure indicator is not allowed for a successful stunning outcome.");
 
-        public static readonly Error RestunningTimingIsNotAllowedError = new(
-            "StunningCheck.RestunningTimingIsNotAllowed",
-            "Restunning timing is not allowed for a successful stunning outcome.");
-
-        public static readonly Error RestunningDeviceIdIsNotAllowedError = new(
-            "StunningCheck.RestunningDeviceIdIsNotAllowed",
-            "Restunning device id is not allowed for a successful stunning outcome.");
-
         public static readonly Error FailureIndicatorIsRequiredError = new(
             "StunningCheck.FailureIndicatorIsRequired",
             "Failure indicator is required for a failed stunning outcome.");
-
-        public static readonly Error RestunningTimingIsRequiredError = new(
-            "StunningCheck.RestunningTimingIsRequired",
-            "Restunning timing is required for a failed stunning outcome.");
-
-        public static readonly Error RestunningDeviceIdIsRequiredError = new(
-            "StunningCheck.RestunningDeviceIdIsRequired",
-            "Restunning device id is required for a failed stunning outcome.");
 
         public static readonly Error RecordedByUserIdIsRequiredError = new(
             "StunningCheck.RecordedByUserIdIsRequired",
@@ -71,10 +51,6 @@ namespace SomnosSuite.Domain.StunningChecks
         public static readonly Error RecordedAtIsNotAllowedError = new(
             "StunningCheck.RecordedAtIsNotAllowed",
             "Recorded at is not allowed for the current stunning check status.");
-
-        public static readonly Error StunningOutcomeIsRequiredError = new(
-            "StunningCheck.StunningOutcomeIsRequired",
-            "Stunning outcome is required for the current stunning check status.");
 
         public static readonly Error RecordedAtIsRequiredError = new(
             "StunningCheck.RecordedAtIsRequired",
@@ -99,5 +75,13 @@ namespace SomnosSuite.Domain.StunningChecks
         public static readonly Error ModifiedAtCannotBeBeforeCreatedAtError = new(
             "StunningCheck.ModifiedAtCannotBeBeforeCreatedAt",
             "Modified at can not be before created at.");
+
+        public static readonly Error StunningResultIsRequiredError = new(
+            "StunningCheck.StunningResultIsRequired",
+            "Stunning result is required for the current stunning check status.");
+
+        public static readonly Error StunningResultIsNotAllowedError = new(
+            "StunningCheck.StunningResultIsNotAllowed",
+            "Stunning result is not allowed for the current stunning check status.");
     }
 }

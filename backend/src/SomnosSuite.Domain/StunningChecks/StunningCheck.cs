@@ -16,11 +16,6 @@ namespace SomnosSuite.Domain.StunningChecks
         public DateTimeOffset? ModifiedAt { get; private set; }
         public StunningResult? StunningResult { get; private set; }
 
-        public StunningOutcome? Outcome { get; private set; }
-        public StunningFailureIndicator? FailureIndicator { get; private set; }
-        public CorrectiveStunningTiming? RestunningTiming { get; private set; }
-        public Guid? RestunningDeviceId { get; private set; }
-
         public StunningCheckStatus Status { get; private set; }
         public bool IsDeleted { get; private set; }
 
@@ -45,10 +40,7 @@ namespace SomnosSuite.Domain.StunningChecks
             DateTimeOffset? recordedAt,
             Guid? modifiedByUserId,
             DateTimeOffset? modifiedAt,
-            StunningOutcome? outcome,
-            StunningFailureIndicator? failureIndicator,
-            CorrectiveStunningTiming? restunningTiming,
-            Guid? restunningDeviceId,
+            StunningResult? stunningResult,
             StunningCheckStatus status,
             bool isDeleted)
         : base(id)
@@ -60,10 +52,7 @@ namespace SomnosSuite.Domain.StunningChecks
             RecordedAt = recordedAt;
             ModifiedByUserId = modifiedByUserId;
             ModifiedAt = modifiedAt;
-            Outcome = outcome;
-            FailureIndicator = failureIndicator;
-            RestunningTiming = restunningTiming;
-            RestunningDeviceId = restunningDeviceId;
+            StunningResult = stunningResult;
             Status = status;
             IsDeleted = isDeleted;
         }
@@ -87,10 +76,7 @@ namespace SomnosSuite.Domain.StunningChecks
             DateTimeOffset? recordedAt,
             Guid? modifiedByUserId,
             DateTimeOffset? modifiedAt,
-            StunningOutcome? outcome,
-            StunningFailureIndicator? failureIndicator,
-            CorrectiveStunningTiming? restunningTiming,
-            Guid? restunningDeviceId,
+            StunningResult? stunningResult,
             StunningCheckStatus status,
             bool isDeleted)
         {
@@ -115,25 +101,10 @@ namespace SomnosSuite.Domain.StunningChecks
                 status,
                 recordedByUserId,
                 recordedAt,
-                outcome,
-                failureIndicator,
-                restunningTiming,
-                restunningDeviceId);
+                stunningResult);
 
             if (rehydratedStateValidation.IsFailure)
                 return Result<StunningCheck>.Failure(rehydratedStateValidation.Error);
-
-            if (outcome.HasValue)
-            {
-                var outcomeValidation = ValidateOutcomeRules(
-                    outcome.Value,
-                    failureIndicator,
-                    restunningTiming,
-                    restunningDeviceId);
-
-                if (outcomeValidation.IsFailure)
-                    return Result<StunningCheck>.Failure(outcomeValidation.Error);
-            }
 
             return new StunningCheck(
                 id,
@@ -144,22 +115,18 @@ namespace SomnosSuite.Domain.StunningChecks
                 recordedAt,
                 modifiedByUserId,
                 modifiedAt,
-                outcome,
-                failureIndicator,
-                restunningTiming,
-                restunningDeviceId,
+                stunningResult,
                 status,
                 isDeleted);
         }
 
         public Result RecordOutcome(
-            StunningOutcome outcome,
-            StunningFailureIndicator? failureIndicator,
-            CorrectiveStunningTiming? restunningTiming,
+            StunningResult stunningResult,
             Guid recordedByUserId,
-            Guid? restunningDeviceId,
             DateTimeOffset recordedAt)
         {
+            ArgumentNullException.ThrowIfNull(stunningResult, nameof(stunningResult));
+
             if (IsDeleted)
                 return Result.Failure(StunningCheckErrors.StunningCheckIsDeletedError);
 
@@ -172,20 +139,7 @@ namespace SomnosSuite.Domain.StunningChecks
             if (recordedAt < CreatedAt)
                 return Result.Failure(StunningCheckErrors.RecordedAtCannotBeBeforeCreatedAtError);
 
-            var outcomeValidation = ValidateOutcomeRules(
-                outcome,
-                failureIndicator,
-                restunningTiming,
-                restunningDeviceId);
-
-            if (outcomeValidation.IsFailure)
-                return Result.Failure(outcomeValidation.Error);
-
-            Outcome = outcome;
-            FailureIndicator = failureIndicator;
-            RestunningTiming = restunningTiming;
-            RestunningDeviceId = restunningDeviceId;
-
+            StunningResult = stunningResult;
             RecordedByUserId = recordedByUserId;
             RecordedAt = recordedAt;
             Status = StunningCheckStatus.Confirmed;
@@ -194,36 +148,25 @@ namespace SomnosSuite.Domain.StunningChecks
         }
 
         public Result CorrectOutcome(
-            StunningOutcome outcome,
-            StunningFailureIndicator? failureIndicator,
-            CorrectiveStunningTiming? restunningTiming,
-            Guid? restunningDeviceId,
+            StunningResult stunningResult,
             Guid modifiedByUserId,
             DateTimeOffset modifiedAt)
         {
+            ArgumentNullException.ThrowIfNull(stunningResult, nameof(stunningResult));
+
             if (IsDeleted)
                 return Result.Failure(StunningCheckErrors.StunningCheckIsDeletedError);
 
             if (Status != StunningCheckStatus.Confirmed)
                 return Result.Failure(StunningCheckErrors.ConfirmedCheckIsRequiredForCorrectionError);
 
-            var outcomeValidation = ValidateOutcomeRules(
-                outcome,
-                failureIndicator,
-                restunningTiming,
-                restunningDeviceId);
-
-            if (outcomeValidation.IsFailure)
-                return Result.Failure(outcomeValidation.Error);
-
             var modifiedInfoResult = UpdateModifiedInfo(modifiedByUserId, modifiedAt);
+
+
             if (modifiedInfoResult.IsFailure)
                 return modifiedInfoResult;
 
-            Outcome = outcome;
-            FailureIndicator = failureIndicator;
-            RestunningTiming = restunningTiming;
-            RestunningDeviceId = restunningDeviceId;
+            StunningResult = stunningResult;
 
             return Result.Success();
         }
@@ -232,10 +175,7 @@ namespace SomnosSuite.Domain.StunningChecks
             StunningCheckStatus status,
             Guid? recordedByUserId,
             DateTimeOffset? recordedAt,
-            StunningOutcome? outcome,
-            StunningFailureIndicator? failureIndicator,
-            CorrectiveStunningTiming? restunningTiming,
-            Guid? restunningDeviceId)
+            StunningResult? stunningResult)
         {
             if (!Enum.IsDefined(status))
                 return Result.Failure(StunningCheckErrors.StunningCheckStatusIsInvalidError);
@@ -245,15 +185,12 @@ namespace SomnosSuite.Domain.StunningChecks
                 StunningCheckStatus.Created => ValidateRehydratedCreatedState(
                     recordedByUserId,
                     recordedAt,
-                    outcome,
-                    failureIndicator,
-                    restunningTiming,
-                    restunningDeviceId),
+                    stunningResult),
 
                 StunningCheckStatus.Confirmed => ValidateRehydratedConfirmedState(
                     recordedByUserId,
                     recordedAt,
-                    outcome),
+                    stunningResult),
 
                 _ => Result.Failure(StunningCheckErrors.StunningCheckStatusIsInvalidError)
             };
@@ -262,96 +199,29 @@ namespace SomnosSuite.Domain.StunningChecks
         private static Result ValidateRehydratedCreatedState(
             Guid? recordedByUserId,
             DateTimeOffset? recordedAt,
-            StunningOutcome? outcome,
-            StunningFailureIndicator? failureIndicator,
-            CorrectiveStunningTiming? restunningTiming,
-            Guid? restunningDeviceId)
+            StunningResult? stunningResult)
         {
             if (recordedByUserId.HasValue)
                 return Result.Failure(StunningCheckErrors.RecordedByUserIdIsNotAllowedError);
             if (recordedAt.HasValue)
                 return Result.Failure(StunningCheckErrors.RecordedAtIsNotAllowedError);
-            if (outcome.HasValue)
-                return Result.Failure(StunningCheckErrors.OutcomeIsNotAllowedError);
-            if (failureIndicator.HasValue)
-                return Result.Failure(StunningCheckErrors.FailureIndicatorIsNotAllowedError);
-            if (restunningTiming.HasValue)
-                return Result.Failure(StunningCheckErrors.RestunningTimingIsNotAllowedError);
-            if (restunningDeviceId.HasValue)
-                return Result.Failure(StunningCheckErrors.RestunningDeviceIdIsNotAllowedError);
+            if (stunningResult is not null)
+                return Result.Failure(StunningCheckErrors.StunningResultIsNotAllowedError);
+
             return Result.Success();
         }
 
         private static Result ValidateRehydratedConfirmedState(
             Guid? recordedByUserId,
             DateTimeOffset? recordedAt,
-            StunningOutcome? outcome)
+            StunningResult? stunningResult)
         {
             if (!recordedByUserId.HasValue || recordedByUserId.Value == Guid.Empty)
                 return Result.Failure(StunningCheckErrors.RecordedByUserIdIsRequiredError);
             if (!recordedAt.HasValue)
                 return Result.Failure(StunningCheckErrors.RecordedAtIsRequiredError);
-            if (!outcome.HasValue)
-                return Result.Failure(StunningCheckErrors.StunningOutcomeIsRequiredError);
-            return Result.Success();
-        }
-
-        private static Result ValidateOutcomeRules(
-            StunningOutcome outcome,
-            StunningFailureIndicator? failureIndicator,
-            CorrectiveStunningTiming? restunningTiming,
-            Guid? restunningDeviceId)
-        {
-            if (!Enum.IsDefined(outcome))
-                return Result.Failure(StunningCheckErrors.StunningOutcomeIsInvalidError);
-
-            return outcome switch
-            {
-                StunningOutcome.Successful => ValidateSuccessfulOutcome(
-                    failureIndicator,
-                    restunningTiming,
-                    restunningDeviceId),
-
-                StunningOutcome.Failed => ValidateFailedOutcome(
-                    failureIndicator,
-                    restunningTiming,
-                    restunningDeviceId),
-
-                _ => Result.Failure(StunningCheckErrors.StunningOutcomeIsInvalidError)
-            };
-        }
-
-        private static Result ValidateSuccessfulOutcome(
-            StunningFailureIndicator? failureIndicator,
-            CorrectiveStunningTiming? restunningTiming,
-            Guid? restunningDeviceId)
-        {
-            if (failureIndicator.HasValue)
-                return Result.Failure(StunningCheckErrors.FailureIndicatorIsNotAllowedError);
-
-            if (restunningTiming.HasValue)
-                return Result.Failure(StunningCheckErrors.RestunningTimingIsNotAllowedError);
-
-            if (restunningDeviceId.HasValue)
-                return Result.Failure(StunningCheckErrors.RestunningDeviceIdIsNotAllowedError);
-
-            return Result.Success();
-        }
-
-        private static Result ValidateFailedOutcome(
-            StunningFailureIndicator? failureIndicator,
-            CorrectiveStunningTiming? restunningTiming,
-            Guid? restunningDeviceId)
-        {
-            if (!failureIndicator.HasValue)
-                return Result.Failure(StunningCheckErrors.FailureIndicatorIsRequiredError);
-
-            if (!restunningTiming.HasValue)
-                return Result.Failure(StunningCheckErrors.RestunningTimingIsRequiredError);
-
-            if (!restunningDeviceId.HasValue || restunningDeviceId.Value == Guid.Empty)
-                return Result.Failure(StunningCheckErrors.RestunningDeviceIdIsRequiredError);
-
+            if (stunningResult is null)
+                return Result.Failure(StunningCheckErrors.StunningResultIsRequiredError);
             return Result.Success();
         }
 
