@@ -10,13 +10,11 @@
 
 | #   | Gap                                      | Target                                                                                                               | Current                                                                            |
 | --- | ---------------------------------------- | -------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| 1   | Failure indicators                       | Multiple simultaneous failure indicators per stunning control.                                                       | A single failure indicator is supported.                                           |
-| 2   | Corrective stunning actions              | Multiple corrective stunning actions per stunning control.                                                           | A single corrective device/timing combination is supported.                        |
-| 3   | Stunning device animal-category approval | A device may be applicable to multiple animal categories.                                                            | `StunningDevice` models exactly one animal category.                               |
-| 4   | Stunning device inspection history       | Full inspection history is retained.                                                                                 | Only the most recent inspection date is stored.                                    |
-| 5   | Correction audit history                 | Full before/after correction history (value before, value after, correcting user, timestamp) is required.            | Corrections overwrite prior values; only the latest modifier metadata is retained. |
-| 6   | Production authentication                | Fast operator identity/authentication at production stations (see [SECURITY_AND_ACCESS.md](SECURITY_AND_ACCESS.md)). | Not yet implemented.                                                               |
-| 7   | Offline durable capture/synchronization  | Durable local capture with continuous synchronization (see [OFFLINE_SYNC.md](OFFLINE_SYNC.md)).                      | Not yet implemented.                                                               |
+| 1   | Stunning device animal-category approval | A device may be applicable to multiple animal categories.                                                            | `StunningDevice` models exactly one animal category.                               |
+| 2   | Stunning device inspection history       | Full inspection history is retained.                                                                                 | Only the most recent inspection date is stored.                                    |
+| 3   | Correction audit history                 | Full before/after correction history (value before, value after, correcting user, timestamp) is required.            | Corrections overwrite prior values; only the latest modifier metadata is retained. |
+| 4   | Production authentication                | Fast operator identity/authentication at production stations (see [SECURITY_AND_ACCESS.md](SECURITY_AND_ACCESS.md)). | Not yet implemented.                                                               |
+| 5   | Offline durable capture/synchronization  | Durable local capture with continuous synchronization (see [OFFLINE_SYNC.md](OFFLINE_SYNC.md)).                      | Not yet implemented.                                                               |
 
 These gaps must be resolved before the corresponding production capture workflow is considered complete. Do not mark any of the above as implemented until the corresponding entry is also updated in [DOMAIN_RULES.md](DOMAIN_RULES.md).
 
@@ -41,7 +39,7 @@ These gaps must be resolved before the corresponding production capture workflow
 
 ## Audit Work
 
-Current aggregates store only the latest modifier metadata. Future audit work should add explicit audit history where the product needs traceability beyond the current modified-by/modified-at fields (see gap #5 above).
+Current aggregates store only the latest modifier metadata. Future audit work should add explicit audit history where the product needs traceability beyond the current modified-by/modified-at fields (see gap #3 above).
 
 Keep the current rule that behavior methods require caller-supplied audit data. Do not let domain objects read the current user or current time directly.
 
