@@ -14,6 +14,7 @@ namespace SomnosSuite.Domain.StunningChecks
         public DateTimeOffset? RecordedAt { get; private set; }
         public Guid? ModifiedByUserId { get; private set; }
         public DateTimeOffset? ModifiedAt { get; private set; }
+        public StunningResult? StunningResult { get; private set; }
 
         public StunningOutcome? Outcome { get; private set; }
         public StunningFailureIndicator? FailureIndicator { get; private set; }
@@ -377,7 +378,7 @@ namespace SomnosSuite.Domain.StunningChecks
                 return modifiedInfoResult;
 
             IsDeleted = true;
-            
+
             return Result.Success();
         }
 
