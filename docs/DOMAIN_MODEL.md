@@ -100,7 +100,7 @@ An unsuccessful outcome may contain **multiple simultaneously observed failure i
 - vocalization;
 - breathing activity.
 
-The target model distinguishes between the overall stunning outcome and one or more observed failure indicators. The current implementation supports multiple simultaneous failure indicators per stunning control.
+The target model distinguishes between the overall stunning outcome and one or more observed failure indicators.
 
 ## Corrective Stunning
 
@@ -112,8 +112,6 @@ A corrective stunning action includes at least:
 - whether it occurred before or after bleeding.
 
 The exact physical time of a corrective stunning action cannot currently be measured reliably and depends on operator input. The target model distinguishes between accurately system-generated timestamps and operator-reported timing information.
-
-The current implementation supports multiple corrective stunning actions per stunning control, each specified as a device and timing pair.
 
 ## Original Stunning Device
 
