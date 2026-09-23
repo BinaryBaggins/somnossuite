@@ -38,5 +38,9 @@ updates:
     open-pull-requests-limit: 3
     cooldown:
       default-days: 3
+    groups:
+      github-actions-dependencies:
+        patterns:
+          - "*"
     labels:
       - "dependencies"
