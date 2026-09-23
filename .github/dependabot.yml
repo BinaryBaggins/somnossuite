@@ -1,4 +1,5 @@
 version: 2
+
 updates:
   - package-ecosystem: "npm"
     directory: "/frontend"
@@ -9,9 +10,19 @@ updates:
     cooldown:
       default-days: 3
     groups:
-      frontend-dependencies:
+      frontend-minor-patch:
         patterns:
           - "*"
+        update-types:
+          - "minor"
+          - "patch"
+
+      frontend-major:
+        patterns:
+          - "*"
+        update-types:
+          - "major"
+
     labels:
       - "dependencies"
 
