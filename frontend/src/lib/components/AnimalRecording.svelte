@@ -1,9 +1,11 @@
 <script lang="ts">
 	import type { ProductionSession } from '$lib/types/ProductionSession';
 
-	let { productionSession } = $props<{
+	let {
+		productionSession
+	}: {
 		productionSession: ProductionSession;
-	}>();
+	} = $props();
 
 	type Animal = {
 		id: string;
