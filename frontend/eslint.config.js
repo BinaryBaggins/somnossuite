@@ -11,7 +11,7 @@ const svelteConfig = (await loadConfig('./', { traverse: false }))?.config;
 
 const gitignorePath = fileURLToPath(new URL('../.gitignore', import.meta.url));
 
-export default ts.defineConfig(
+export default ts.config(
 	includeIgnoreFile(gitignorePath),
 	js.configs.recommended,
 	...ts.configs.recommended,
