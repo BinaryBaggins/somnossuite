@@ -4,14 +4,14 @@
 	"version": "0.0.1",
 	"type": "module",
 	"engines": {
-		"node": ">=22.13.0",
+		"node": ">=26.13.0",
 		"npm": ">=10"
 	},
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
 		"preview": "vite preview",
-		"prepare": "svelte-kit sync || echo ''",
+		"prepare": "svelte-kit sync",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
 		"format": "prettier --write .",
@@ -60,5 +60,10 @@
 	"allowScripts": {
 		"@tailwindcss/oxide@4.1.12": true,
 		"esbuild@0.27.7": true
+	},
+	"imports": {
+		"#lib": "./src/lib/index.js",
+		"#lib/*": "./src/lib/*",
+		"#i18n/*": "./src/i18n/*"
 	}
 }

@@ -1,10 +1,10 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import favicon from '$lib/assets/favicon.svg';
-	import ThemeToggle from '$lib/components/ui/theme-toggle/theme-toggle.svelte';
-	import UserMenu from '$lib/components/ui/user-menu/user-menu.svelte';
-	import type { UserMenuItem } from '$lib/components/ui/user-menu/user-menu.svelte';
-	import LanguageSwitcher from '$lib/components/ui/language-switcher/app-language-switcher.svelte';
+	import favicon from '#lib/assets/favicon.svg';
+	import ThemeToggle from '#lib/components/ui/theme-toggle/theme-toggle.svelte';
+	import UserMenu from '#lib/components/ui/user-menu/user-menu.svelte';
+	import type { UserMenuItem } from '#lib/components/ui/user-menu/user-menu.svelte';
+	import LanguageSwitcher from '#lib/components/ui/language-switcher/app-language-switcher.svelte';
 	import SettingsIcon from '@lucide/svelte/icons/settings';
 	import LogOutIcon from '@lucide/svelte/icons/log-out';
 

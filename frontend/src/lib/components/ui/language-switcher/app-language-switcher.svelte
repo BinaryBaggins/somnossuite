@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { LanguageSwitcher } from '$lib/components/ui/language-switcher';
+	import { LanguageSwitcher } from '#lib/components/ui/language-switcher/index.ts';
 
 	import LL, { locale, setLocale } from '../../../../i18n/i18n-svelte';
 	import { loadLocale } from '../../../../i18n/i18n-util.sync';

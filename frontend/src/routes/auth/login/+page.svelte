@@ -1,15 +1,15 @@
 <script lang="ts">
 	import { resolve } from '$app/paths';
-	import LL from '$i18n/i18n-svelte';
+	import LL from '#i18n/i18n-svelte.js';
 
-	import { Card } from '$lib/components/ui/card';
-	import { Button } from '$lib/components/ui/button';
-	import { Input } from '$lib/components/ui/input';
-	import { Label } from '$lib/components/ui/label';
-	import { Checkbox } from '$lib/components/ui/checkbox';
-	import { Badge } from '$lib/components/ui/badge';
+	import { Card } from '#lib/components/ui/card/index.ts';
+	import { Button } from '#lib/components/ui/button/index.ts';
+	import { Input } from '#lib/components/ui/input/index.ts';
+	import { Label } from '#lib/components/ui/label/index.ts';
+	import { Checkbox } from '#lib/components/ui/checkbox/index.ts';
+	import { Badge } from '#lib/components/ui/badge/index.ts';
 
-	import favicon from '$lib/assets/favicon.svg';
+	import favicon from '#lib/assets/favicon.svg';
 </script>
 
 <svelte:head>
