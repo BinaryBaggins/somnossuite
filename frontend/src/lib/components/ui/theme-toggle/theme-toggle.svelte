@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
+	import { browser } from '$app/env';
 	import { Sun, Moon } from '@lucide/svelte/icons';
-	import { Button } from '$lib/components/ui/button';
+	import { Button } from '#lib/components/ui/button/index.ts';
 
 	type Theme = 'light' | 'dark';
 	const THEME_STORAGE_KEY = 'somnos-theme';

@@ -1,5 +1,5 @@
-import { browser } from '$app/environment';
-import type { Locales } from '../../i18n/i18n-types';
+import { browser } from '$app/env';
+import type { Locales } from '#i18n/i18n-types.ts';
 
 const LOCALE_STORAGE_KEY = 'somnos.locale';
 const DEFAULT_LOCALE: Locales = 'en';

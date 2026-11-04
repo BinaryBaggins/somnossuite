@@ -1,11 +1,11 @@
 <script lang="ts">
 	import '../app.css';
-	import { browser } from '$app/environment';
+	import { browser } from '$app/env';
 	import { setLocale } from '../i18n/i18n-svelte';
 	import { loadLocale } from '../i18n/i18n-util.sync';
-	import { defaultLocale, getPreferredLocale, persistLocale } from '$lib/i18n/locale';
-	import favicon from '$lib/assets/favicon.svg';
-	import NavBar from '$lib/components/NavBar.svelte';
+	import { defaultLocale, getPreferredLocale, persistLocale } from '#lib/i18n/locale.ts';
+	import favicon from '#lib/assets/favicon.svg';
+	import NavBar from '#lib/components/NavBar.svelte';
 
 	const initialLocale = browser ? getPreferredLocale() : defaultLocale;
 

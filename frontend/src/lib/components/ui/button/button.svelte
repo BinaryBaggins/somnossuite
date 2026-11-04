@@ -1,6 +1,7 @@
 <script lang="ts" module>
 	import { resolve } from '$app/paths';
-	import { cn, type WithElementRef } from '$lib/utils.js';
+	import type { PathnameWithSearchOrHash } from '$app/types';
+	import { cn, type WithElementRef } from '#lib/utils.js';
 	import type { HTMLAnchorAttributes, HTMLButtonAttributes } from 'svelte/elements';
 	import { type VariantProps, tv } from 'tailwind-variants';
 
@@ -65,7 +66,7 @@
 		bind:this={ref}
 		data-slot="button"
 		class={cn(buttonVariants({ variant, size }), className)}
-		href={disabled ? undefined : resolve(href as Parameters<typeof resolve>[0])}
+		href={disabled ? undefined : resolve(href as PathnameWithSearchOrHash)}
 		aria-disabled={disabled}
 		role={disabled ? 'link' : undefined}
 		tabindex={disabled ? -1 : undefined}

@@ -71,4 +71,6 @@ jobs:
 
       - name: Build
         working-directory: frontend
+        env:
+          PUBLIC_API_URL: https://localhost:7086
         run: npm run build

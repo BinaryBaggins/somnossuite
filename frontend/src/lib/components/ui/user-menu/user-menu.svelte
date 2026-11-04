@@ -44,9 +44,9 @@
 </script>
 
 <script lang="ts">
-	import * as Avatar from '$lib/components/ui/avatar/index.js';
-	import Button from '../button/button.svelte';
-	import * as DropdownMenu from '$lib/components/ui/dropdown-menu/index.js';
+	import * as Avatar from '#lib/components/ui/avatar/index.js';
+	import Button from '#lib/components/ui/button/button.svelte';
+	import * as DropdownMenu from '#lib/components/ui/dropdown-menu/index.js';
 	import UserIcon from '@lucide/svelte/icons/user';
 
 	let {

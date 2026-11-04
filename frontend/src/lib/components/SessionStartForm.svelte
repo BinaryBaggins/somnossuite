@@ -1,8 +1,8 @@
 <script lang="ts">
-	import type { ProductionSession } from '$lib/types/ProductionSession.ts';
-	import { Button } from '$lib/components/ui/button';
-	import { Label } from '$lib/components/ui/label';
-	import * as Select from '$lib/components/ui/select/index.js';
+	import type { ProductionSession } from '#lib/types/ProductionSession.ts';
+	import { Button } from '#lib/components/ui/button/index.js';
+	import { Label } from '#lib/components/ui/label/index.js';
+	import * as Select from '#lib/components/ui/select/index.js';
 
 	let {
 		onSessionStarted

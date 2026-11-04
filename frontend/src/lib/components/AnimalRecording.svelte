@@ -1,5 +1,5 @@
 <script lang="ts">
-	import type { ProductionSession } from '$lib/types/ProductionSession';
+	import type { ProductionSession } from '#lib/types/ProductionSession.ts';
 
 	let {
 		productionSession
