@@ -44,21 +44,22 @@
 		<!-- Navigation links -->
 		<ul class="list-style-none me-auto flex flex-col ps-0 lg:flex-row" data-twe-navbar-nav-ref>
 			<li class="mb-4 lg:mb-0 lg:pe-2" data-twe-nav-item-ref>
-				<a class={navLinkClass} href={resolve('/dashboard')} data-twe-nav-link-ref
-					>Dashboard</a
-				>
+				<a class={navLinkClass} href={resolve('/dashboard')} data-twe-nav-link-ref>
+					Dashboard
+				</a>
 			</li>
 			<li class="mb-4 lg:mb-0 lg:pe-2" data-twe-nav-item-ref>
 				<a class={navLinkClass} href={resolve('/about')} data-twe-nav-link-ref>About</a>
 			</li>
 			<li class="mb-4 lg:mb-0 lg:pe-2" data-twe-nav-item-ref>
-				<a class={navLinkClass} href={resolve('/auth/login')} data-twe-nav-link-ref>Login</a
-				>
+				<a class={navLinkClass} href={resolve('/auth/login')} data-twe-nav-link-ref>
+					Login
+				</a>
 			</li>
 			<li class="mb-4 lg:mb-0 lg:pe-2" data-twe-nav-item-ref>
-				<a class={navLinkClass} href={resolve('/app/station')} data-twe-nav-link-ref
-					>Station</a
-				>
+				<a class={navLinkClass} href={resolve('/app/station')} data-twe-nav-link-ref>
+					Station
+				</a>
 			</li>
 		</ul>
 
